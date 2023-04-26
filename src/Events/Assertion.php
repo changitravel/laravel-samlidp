@@ -2,7 +2,7 @@
 
 namespace CodeGreenCreative\SamlIdp\Events;
 
-use LightSaml\ClaimTypes;
+use CodeGreenCreative\SamlIdp\Constants\ClaimTypes;
 use Illuminate\Queue\SerializesModels;
 use LightSaml\Model\Assertion\Attribute;
 
@@ -29,7 +29,7 @@ class Assertion
     {
         $this->attribute_statement = &$attribute_statement;
         $this->attribute_statement
-            ->addAttribute(new Attribute(ClaimTypes::EMAIL_ADDRESS, auth($guard)->user()->__get(config('samlidp.email_field', 'email'))))
+            ->addAttribute(new Attribute(ClaimTypes::USERNAME, auth($guard)->user()->__get(config('samlidp.email_field', 'email'))))
             ->addAttribute(new Attribute(ClaimTypes::COMMON_NAME, auth($guard)->user()->__get(config('samlidp.name_field', 'name'))));
     }
 }

@@ -15,8 +15,12 @@ class SamlLogin
      */
     public function handle(Login $event)
     {
-        if (in_array($event->guard, config('samlidp.guards')) && request()->filled('SAMLRequest') && ! request()->is('saml/logout')) {
-            abort(response(SamlSso::dispatchNow($event->guard)), 302);
+        if (request()->is('signin')) {
+            // We don't want to do any SSO stuff yet we will 2FA the user first
+        } else {
+            if (in_array($event->guard, config('samlidp.guards')) && request()->filled('SAMLRequest') && ! request()->is('saml/logout')) {
+                abort(response(SamlSso::dispatchNow($event->guard)), 302);
+            }
         }
     }
 }
