@@ -43,13 +43,13 @@ class SamlSlo
         $this->setDestination();
         // We are receiving a Logout Request
         if (request()->filled('SAMLRequest')) {
-            $xml = gzinflate(base64_decode(request('SAMLRequest')));
+            $xml = base64_decode(request('SAMLRequest'));
             $deserializationContext = new DeserializationContext;
             $deserializationContext->getDocument()->loadXML($xml);
             // Get the final destination
             session()->put('RelayState', request('RelayState'));
         } elseif (request()->filled('SAMLResponse')) {
-            $xml = gzinflate(base64_decode(request('SAMLResponse')));
+            $xml = base64_decode(request('SAMLResponse'));
             $deserializationContext = new DeserializationContext;
             $deserializationContext->getDocument()->loadXML($xml);
         }
