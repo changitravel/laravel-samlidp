@@ -16,7 +16,11 @@ class SamlAuthenticated
     public function handle(Authenticated $event)
     {
         if (in_array($event->guard, config('samlidp.guards')) && request()->filled('SAMLRequest') && ! request()->is('saml/logout') && request()->isMethod('get')) {
-            abort(response(SamlSso::dispatchNow($event->guard)), 302);
+            try {
+                abort(response(SamlSso::dispatchNow($event->guard)), 302);
+            } catch (\Throwable $th) {
+                abort(response(SamlSso::dispatch($event->guard)), 302);
+            }
         }
     }
 }
