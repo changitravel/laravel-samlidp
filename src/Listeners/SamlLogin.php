@@ -22,7 +22,7 @@ class SamlLogin
                 try {
                     abort(response(SamlSso::dispatchNow($event->guard)), 302);
                 } catch (\Throwable $th) {
-                    abort(response(SamlSso::dispatch($event->guard)), 302);
+                    abort(response(SamlSso::dispatchSync($event->guard)), 302);
                 }
             }
         }
