@@ -32,7 +32,11 @@ class LogoutController extends Controller
             if (! empty($sp['logout']) && ! in_array($key, $request->session()->get('saml.slo', []))) {
                 // Push this SP onto the saml slo array
                 $request->session()->push('saml.slo', $key);
-                return redirect(SamlSlo::dispatchNow($sp));
+                try {
+                    return redirect(SamlSlo::dispatchNow($sp));
+                } catch (\Throwable $th) {
+                    return redirect(SamlSlo::dispatchSync($sp));
+                }
             }
         }
 
